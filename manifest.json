@@ -1,0 +1,16 @@
+{
+  "name": "Time Tracker",
+  "version": "1.0",
+  "description": "An extension to track time spent on each website!",
+  "manifest_version": 2,
+  "background": {
+    "scripts": ["index.js"]
+  },
+  "browser_action": {
+    "default_icon": "icon.png",
+    "default_popup": "popup.html"
+  },
+  "permissions": [
+    "tabs", "storage"
+]
+}
