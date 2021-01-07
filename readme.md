@@ -6,6 +6,14 @@ As we know Software Engineers spend a lot of time on Laptops which affect their 
 
 ![Demo](./demo.gif)
 
+
+## Steps to Install
+1. Clone this repository.
+2. Navigate to chrome://extensions/
+3. Toggle the developer mode (Activate it).
+4. Click on 'Load Unpacked'
+5. Select the complete folder which you cloned in the first step.
+
 ## Tech Stack
 - HTML
 - CSS
