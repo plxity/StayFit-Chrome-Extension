@@ -15,8 +15,8 @@ function restoreOptions() {
 let alarmClock = {
   onHandler: function (e) {
     chrome.alarms.create('myAlarm', {
-      delayInMinutes: 0.1,
-      periodInMinutes: 0.2,
+      delayInMinutes: 60,
+      periodInMinutes: 60,
     });
     setTimeout(()=>{
       window.close();
