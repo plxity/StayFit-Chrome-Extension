@@ -1,31 +1,66 @@
-console.log('hello, I am running!');
-document.addEventListener('DOMContentLoaded', function () {
-  console.log('hello');
-});
-let array = [];
-let links = {};
-chrome.tabs.query(
-  {
-    active: true,
-    lastFocusedWindow: true,
+// Restore Checkbox value
+function restoreOptions() {
+  // Use default value = false.
+  chrome.storage.sync.get(
+    {
+      value: false,
+    },
+    function (items) {
+      document.getElementsByClassName('toggler')[0].checked = items.value;
+    }
+  );
+}
+
+// An object which contains all the function required to start/stop and setup the alarm
+let alarmClock = {
+  onHandler: function (e) {
+    chrome.alarms.create('myAlarm', {
+      delayInMinutes: 90,
+      periodInMinutes: 90,
+    });
+    setTimeout(()=>{
+      window.close();
+    },600)
+    
   },
-  (tabs) => {
-    var tab = tabs[0];
-    console.log(tabs);
-    array.push(tab.url);
-    let tabUrl = tab.url;
-    let number = 1;
-    chrome.storage.sync.set({ [tabUrl]: `${number}` });
-    // chrome.storage.sync.get(null, function(items) {
-    //   //     var allKeys = Object.keys(items);
-    //   //     console.log(allKeys);
-    //   // });
-    chrome.storage.sync.get('fsdfsd', function (obj) {
-      console.log(obj);
-      if(Object.keys(obj).length==0){
-        console.log("it is empty");
+  offHandler: function (e) {
+    chrome.alarms.clear('myAlarm');
+    setTimeout(()=>{
+      window.close();
+    },600)
+  
+  },
+
+  setup: function () {
+    var toggler = document.getElementsByClassName('toggler');
+    toggler[0].addEventListener('change', () => {
+      if (toggler[0].checked == true) {
+        chrome.storage.sync.set(
+          {
+            value: true,
+          },
+          function () {
+            console.log('Switch Saved as true');
+             alarmClock.onHandler();
+          }
+        );
+      } else {
+        chrome.storage.sync.set(
+          {
+            value: false,
+          },
+          function () {
+            console.log('Switch Saved as false');
+             alarmClock.offHandler();
+          }
+        );
       }
     });
-    console.log(array);
-  }
-);
+  },
+};
+
+// To fire when DOM is loaded and calling restoreOptions to check the status of checkbox
+document.addEventListener('DOMContentLoaded', function () {
+  restoreOptions();
+  alarmClock.setup();
+});
