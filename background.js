@@ -3,4 +3,3 @@ chrome.alarms.onAlarm.addListener(function (alarm) {
     chrome.tabs.create({ url: 'background.html' });
   }
 });
-c
